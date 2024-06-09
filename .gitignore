@@ -1,0 +1,10 @@
+backend/node_modules
+frontend/node_modules
+.idea
+frontend/.vite
+# Keep environment variables out of version control
+backend/.env
+.dockerignore
+dist
+.vercel
+__tests__   
