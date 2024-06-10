@@ -49,4 +49,16 @@ export class CourseController {
       res.status(500).json({ message: "Error retrieving courses." });
     }
   }
+
+  static async getCoursById(req: Request, res: Response) {
+    const { id } = req.params;
+    try {
+      const course = await prisma.course.findUnique({
+        where: { id },
+      });
+      res.status(200).json(course);
+    } catch (error) {
+      res.status(404).json({ message: "Course not found." });
+    }
+  }
 }

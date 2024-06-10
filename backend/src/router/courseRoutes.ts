@@ -23,4 +23,10 @@ router
     asyncWrapper(CourseController.updateCourse)
   );
 
+router.get(
+  "/:id",
+  authenticateToken,
+  asyncWrapper(CourseController.getCoursById)
+);
+
 export default router;
