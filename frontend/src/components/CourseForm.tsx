@@ -1,18 +1,14 @@
 import { useState, useEffect } from "react";
+import type { Course } from "../types";
 
 interface CourseFormProps {
-  onSubmit: any;
-  initialData: {
-    name: string;
-    description: string;
-    startDate: string;
-    endDate: string;
-    teacherId: string;
-  };
+  onSubmit: (courseData: Course) => void;
+  initialData?: Course;
 }
 
 export default function CourseForm({ onSubmit, initialData }: CourseFormProps) {
   const [courseData, setCourseData] = useState({
+    id: "",
     name: "",
     description: "",
     startDate: "",
@@ -35,7 +31,6 @@ export default function CourseForm({ onSubmit, initialData }: CourseFormProps) {
       [name]: value,
     }));
   };
-
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

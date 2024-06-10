@@ -1,15 +1,19 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export default function RegisterForm() {
-  // Initializing state for form data with default values
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
-    role: "STUDENT", // Default role set to 'STUDENT'
+    role: "STUDENT",
   });
+  const [error, setError] = useState(null);
 
-  // Handle changes in input fields
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -20,22 +24,38 @@ export default function RegisterForm() {
     }));
   };
 
-  // Handle form submission
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Form data submitted:", formData);
-    // Typically, here you would call a backend API to register the user
-    // axios.post('/api/register', formData).then(response => {}).catch(error => {});
+    const { name, email, password, role } = formData;
+
+    await fetch(`${import.meta.env.VITE_API_URL}/user/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, email, password, role }),
+    })
+      .then((res) => res.json())
+      .then(async (data) => {
+        if (data.error) {
+          setError(data.error);
+          return;
+        }
+        await login({ email, password });
+        navigate("/courses");
+      })
+      .catch((error) => {
+        console.error("Error registering user:", error);
+      });
   };
 
-  // JSX for the form
   return (
     <div className="max-w-md mx-auto mt-10">
       <form
         className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
         onSubmit={handleSubmit}
       >
-        {/* Input field for name */}
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
@@ -54,8 +74,6 @@ export default function RegisterForm() {
             required
           />
         </div>
-
-        {/* Input field for email */}
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
@@ -74,8 +92,6 @@ export default function RegisterForm() {
             required
           />
         </div>
-
-        {/* Input field for password */}
         <div className="mb-6">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
@@ -94,8 +110,6 @@ export default function RegisterForm() {
             required
           />
         </div>
-
-        {/* Select dropdown for role */}
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
@@ -115,8 +129,6 @@ export default function RegisterForm() {
             <option value="TEACHER">Teacher</option>
           </select>
         </div>
-
-        {/* Submit button */}
         <div className="flex items-center justify-between">
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
@@ -126,6 +138,9 @@ export default function RegisterForm() {
           </button>
         </div>
       </form>
+      {error && (
+        <div className="text-red-500 text-center">{error} , try agein </div>
+      )}
     </div>
   );
 }

@@ -20,8 +20,8 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="course-create" element={<CreateCoursePage />} />
-            <Route path="course-update" element={<UpdateCoursePage />} />
+            <Route path="/course-create" element={<CreateCoursePage />} />
+            <Route path="/course-update/:id" element={<UpdateCoursePage />} />
             <Route path="/courses" element={<CoursesPage />} />
           </Routes>
         </Router>
