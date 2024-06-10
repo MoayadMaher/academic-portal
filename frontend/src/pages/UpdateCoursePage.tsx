@@ -7,6 +7,7 @@ import { getCookie } from "react-use-cookie";
 
 const UpdateCoursePage = () => {
   const [course, setCourse] = useState<Course | null>(null);
+  const [secussflag, setSecussflag] = useState(false);
   const { user } = useAuth();
   const navigate = useNavigate();
   const token = getCookie("token");
@@ -58,11 +59,7 @@ const UpdateCoursePage = () => {
     })
       .then((res) => {
         if (res.ok) {
-          return (
-            <h1 className="text-center text-2xl font-bold my-4">
-              Course updated successfully
-            </h1>
-          );
+          setSecussflag(true);
         }
       })
       .catch((error) => {
@@ -80,6 +77,11 @@ const UpdateCoursePage = () => {
     <div>
       <h1 className="text-center text-2xl font-bold my-4">Update Course</h1>
       <CourseForm initialData={course} onSubmit={handleUpdate} />
+      {secussflag && (
+        <div className="text-center text-green-500 font-bold my-4">
+          Course updated successfully
+        </div>
+      )}
     </div>
   );
 };

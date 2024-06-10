@@ -50,6 +50,12 @@ const CourseList = () => {
             </small>
             <br />
             <small>Ends: {new Date(course.endDate).toLocaleDateString()}</small>
+            <button
+              className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-150 ease-in-out flex justify-end"
+              onClick={() => navigate(`/course-update/${course.id}`)}
+            >
+              Update the course
+            </button>
           </div>
         ))}
       </div>
