@@ -9,7 +9,7 @@ const LoginForm = () => {
     password: "",
   });
 
-  const { login, user } = useAuth();
+  const { login } = useAuth();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -21,9 +21,7 @@ const LoginForm = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Login submitted:", credentials);
     await login(credentials);
-    console.log(user);
     navigate("/courses");
   };
 

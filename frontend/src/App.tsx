@@ -13,7 +13,6 @@ function App() {
   return (
     <>
       <AuthProvider>
-        {/* <CourseProvider> */}
         <Router>
           <Navbar />
           <Routes>
@@ -25,7 +24,6 @@ function App() {
             <Route path="/courses" element={<CoursesPage />} />
           </Routes>
         </Router>
-        {/* </CourseProvider> */}
       </AuthProvider>
     </>
   );
