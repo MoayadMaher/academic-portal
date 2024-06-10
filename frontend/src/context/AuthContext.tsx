@@ -12,14 +12,14 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [userToken, setUserToken, removeUserToken] = useCookie("token", "0");
+  const [_, setUserToken, removeUserToken] = useCookie("token", "0");
 
   useEffect(() => {
     fetchUser();
   }, []);
 
   const login = async (userData: UserCredentials) => {
-    const res = await fetch("http://localhost:3000/user/login", {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/user/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (!token) {
       return;
     }
-    const res = await fetch("http://localhost:3000/user/me", {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/user/me`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

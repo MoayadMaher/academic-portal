@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { getCookie } from "react-use-cookie";
-import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const CourseList = () => {
@@ -21,7 +20,7 @@ const CourseList = () => {
 
   const fetchCourses = async () => {
     setLoading(true);
-    const res = await fetch("http://localhost:3000/course", {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/course`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
